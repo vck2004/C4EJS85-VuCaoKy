@@ -1,0 +1,13 @@
+var
+1) a.khi tên biến có kí tự đặc biệt hoặc trùng với từ khóa thì sẽ báo lỗi
+	VD: 123x,break,#y
+   b.dùng lệnh typeof()
+2) 1-c 2-a 3-e 4-ko có
+
+loop
+1) a.var là lệnh khai báo biến, const là lệnh khai báo biến nhưng biến khai báo có giá trị không đổi
+   b.let tạo ra biến chỉ truy cập trong block(trong ngoặc nhọn) bao quanh nó và không tái khai báo được còn var thì truy cập
+   trong cả function chứa nó và tái khai báo được
+   c.giống nhau nhưng const thì có giá trị không đổi(trừ khi biến là object,array và function thì có thể đổi)
+   d.dùng const khi cần 1 hằng số, nên dùng let khi cần khai báo biến thay cho lệnh var
+2)boolean là kiểu dữ liệu logic chỉ trả về 2 giá trị là True/False
