@@ -1,0 +1,116 @@
+/* selector */
+/* 1 */
+.p{
+    color: red;
+}
+/* 2 */
+#div{
+    background-color: #00FF00;
+}
+/* 3 */
+.p2{
+    font-size: 24px;
+}
+/* 4
+<div>I'm div</div>
+<div><p>I'm p</p></div>
+*/
+/* 5
+#div2{
+  color:blue
+}
+ */
+/* 6 */
+[target]{
+    color: yellow;
+}
+/* 7 */
+ul>li{
+    font-weight: bold;
+}
+/* 9 */
+div.item>span{
+    font-size: 18px;
+}
+div.item>div>span{
+    font-style: italic;
+}
+
+/* properties */
+/* text and font 1 */
+/* div{
+    background-color: wheat;
+    color:green;
+    text-align:center;
+    text-transform: uppercase;
+    font-size: larger;
+    font-weight:bold;
+  } */
+/* text and font 2 */
+  /* a{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background:wheat;
+    color:green;
+    text-decoration:none;
+    text-align:center;
+    line-height:6;
+    font-family: cursive;
+  } */
+
+/* background1 */
+div.prop3{
+    height:58px;
+    width:500px;
+    background-image: url(https://demos.transloadit.com/58/9bc4d570d746bfa5375e58741427f0/desert.jpg);
+}
+#prop{
+    /* background-repeat: repeat-y; */
+    background-repeat: no-repeat;
+}
+
+/* background2 */
+div.prop4{
+    height:300px;
+    width: 800px;
+    background-image: url(https://th.bing.com/th/id/OIP.nwuVuxfazntQUQ7IPnYCyAHaHa?pid=Api&rs=1);
+    background-repeat: no-repeat;
+}
+#div1{
+    background-size: contain;
+}
+#div2{
+    background-size: cover;
+}
+
+/* border */
+/* div{
+    width: 200px;
+    height:200px;
+    background:wheat;
+    font-size:30px;
+    text-align:center;
+    line-height:200px;
+    border:3px solid blue;
+    border-radius:50px;
+  } */
+
+/* display1 */
+/* display:block; */
+/* display2 */
+/* display:inline; */
+/* display3 */
+/* display:inline-block;
+  width:500px; */
+
+/* box model 1 */
+/* padding:45px 40px; */
+
+/* box model 2 */
+/* margin:50px 40px; */
+
+/* box model 3 */
+/*  -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box; */
