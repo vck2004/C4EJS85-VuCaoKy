@@ -1,0 +1,77 @@
+/* counter */
+/* .counter{
+    border:2px solid black;
+    padding: 10px 15px;
+    position: relative;
+    top: 400px;
+    left: 45%;
+    background-color: darkgrey;
+}
+.counter:hover {
+    filter: brightness(60%);
+  }
+#counter_value{
+    position: relative;
+    top: 400px;
+    left: 45%;
+    padding: 10px 20px;
+} */
+
+/* timer */
+/* #timer{
+    border: none;
+    margin: 300px 650px 0px 0px;
+    text-align: right;
+}
+#box{
+    border: 1px solid lightgray;
+    text-align: right;
+}
+#box::placeholder{
+    text-align: right;
+}
+#start_btn{
+    background-color: lightgray;
+    border: none;
+}
+#stop_btn{
+    background-color: lightgray;
+    border: none;
+}
+#res{
+    margin: 0px 650px 0px 0px;
+    text-align: right;
+    font-weight: bold;
+} */
+
+/* random quote */
+/* #reload{
+    text-align: right;
+    margin: 20px;
+    font-size: x-large;
+    cursor: pointer;
+}
+#quote{
+    text-align: right;
+    margin: 300px 450px 0px 0px;
+    font-size: x-large;
+}
+#author{
+    text-align: right;
+    margin: 20px 440px 0px 0px;
+    font-size: small;
+    opacity: 0.7;
+} */
+
+/* time sheet */
+/* table{
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table, th, td{
+    border: 1px solid;
+}
+th, td{
+    padding: 5px;
+} */
+
