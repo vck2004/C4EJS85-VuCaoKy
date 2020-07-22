@@ -1,12 +1,14 @@
 // login and signup
 const content = document.getElementById('content');
-let logged_in = false;
+let user_number = 0;
 let login_modal = document.getElementById('login_modal');
 let signup_modal = document.getElementById('signup_modal');
+let playlist_add_modal = document.getElementById('playlist_add_modal');
 let login_btn = document.getElementById('login_btn');
 let signup_btn = document.getElementById('signup_btn');
 let span = document.getElementsByClassName("close")[0];
 let span2 = document.getElementsByClassName("close")[1];
+let span3 = document.getElementsByClassName("close")[2];
 login_btn.onclick = function() {
     login_modal.style.display = "block";
 }
@@ -24,7 +26,9 @@ signup_btn.onclick = function() {
 span2.onclick = function() {
     signup_modal.style.display = "none";
 }
-
+span3.onclick = function() {
+  playlist_add_modal.style.display = 'none';
+}
 const modal_login_btn = document.getElementById('modal_login_btn');
 modal_login_btn.addEventListener('click',login);
 const modal_signup_btn = document.getElementById('modal_signup_btn');
@@ -42,25 +46,27 @@ function login(){
       document.getElementById('main_bar_container').insertAdjacentHTML('beforeend',`<span id="admin_control">Control data</span><span id="user_control">Control user</span><span id="logout">Log out</span>`);
       const admin_btn = document.getElementById('admin_control');
       const user_btn = document.getElementById('user_control');
+      opencontrol();
       const logout_btn = document.getElementById('logout');
       admin_btn.addEventListener('click',opencontrol);
       user_btn.addEventListener('click',open_user_control);
       logout_btn.addEventListener('click',logoutadmin);
       break;
-    }else if(document.getElementById('user').value==users[i+1].user && document.getElementById('user_pass').value==users[i+1].password){
-      alert(`logged in as ${users[i+1].user} successfully`);
+    }else if(document.getElementById('user').value==users[i].user && document.getElementById('user_pass').value==users[i].password){
+      alert(`logged in as ${users[i].user} successfully`);
       document.getElementById('user').value='';
       document.getElementById('user_pass').value='';
       login_modal.style.display = "none";
       login_btn.style.display = "none";
       signup_btn.style.display = "none";
-      document.getElementById('main_bar_container').insertAdjacentHTML('beforeend',`<span id="playlist">Favorite</span><span id="logout">Log out</span>`);
+      document.getElementById('main_bar_container').insertAdjacentHTML('beforeend',`<span id="playlist">Playlists</span><span id="current_user">Current user: ${users[i].user}</span><span id="logout">Log out</span>`);
       const logout_btn = document.getElementById('logout');
       const playlist_btn = document.getElementById('playlist');
       logout_btn.addEventListener('click',logout);
-      playlist_btn.addEventListener('click',()=>{control_playlist(i+1)});
+      user_number = i;
+      playlist_btn.addEventListener('click',()=>{control_playlist(user_number)});
       break
-    } else if(i==users.length-2 || users.length==1){
+    } else if(i==users.length-1){
       alert('wrong password or username');
     }
   }
@@ -78,7 +84,7 @@ function signup(){
       alert('username already exist');
       break
     } else if(i==users.length-1 || users.length==1){
-      users.push({user:new_user.value,password:new_password.value,email:new_email.value,favorited:[]});
+      users.push({user:new_user.value,password:new_password.value,email:new_email.value,playlists:[]});
       new_user.value='';
       new_email.value='';
       new_password.value='';
@@ -101,8 +107,10 @@ function logoutadmin(){
 function logout(){
   login_btn.style.display = "inline";
   signup_btn.style.display = "inline";
+  user_number=0;
   document.getElementById('logout').remove();
   document.getElementById('playlist').remove();
+  document.getElementById('current_user').remove();
   back_to_main();
 }
 
@@ -242,25 +250,62 @@ function open_user_control(){
 
 // user with account
 function control_playlist(current_user){
-  if(users[current_user].favorited.length==0){
-    content.innerHTML = 'You dont have any favorite song yet<br>';
+  content.innerHTML = `<input id="new_playlist_name" placeholder="Enter new playlist name"><button id="create_playlist_btn">Create playlist</button>`;
+  const create_playlist = document.getElementById('create_playlist_btn');
+  const playlist_name_box = document.getElementById('new_playlist_name');
+  create_playlist.addEventListener('click',()=>{
+    if(playlist_name_box.value==''){
+      alert('dont leave your playlist name blank');
+    } else{
+      users[current_user].playlists.push({name:playlist_name_box.value,songs:[]});
+      control_playlist(current_user);
+    }
+  })
+  if(users[current_user].playlists.length==0){
+    content.insertAdjacentHTML('afterbegin','You dont have any playlist yet<br>')
   } else{
-    content.innerHTML = 'Favorite song';
-    for(i=0;i<users[current_user].favorited.length;i++){
-      search_result(users[current_user].favorited[i],musics_data);
+    for(let i=0;i<users[current_user].playlists.length;i++){
+      content.insertAdjacentHTML('beforeend',`<div><span>${users[current_user].playlists[i].name}</span><button id="remove${i}">X</button></div>`);
+      document.getElementById(`remove${i}`).addEventListener('click',()=>{
+        users[current_user].playlists.splice(i,1);
+        control_playlist(current_user);
+      })
+      if(users[current_user].playlists[i].songs.length==0){
+        content.insertAdjacentHTML('beforeend',`<div>This playlist doesnt have any song yet</div>`);
+      } else{
+        for(let n=0;n<users[current_user].playlists[i].songs.length;n++){
+          search_result(users[current_user].playlists[i].songs[n],musics_data);
+        }
+      }
     }
   }
-  content.insertAdjacentHTML('beforeend','<input type="text" placeholder="Enter song name to add" id="add_song_bar" autocomplete="off"><button id="add_song">Add more songs</button>')
-  let datas = [];
-  for (let i = 0; i < musics_data.length; i++) {
-    datas[i] = musics_data[i].name;
+}
+function add_song_to_playlist(song_number,current_user){
+  if(current_user==0){
+    alert('you need to log in to use this');
+  } else{
+    const boxes = document.getElementById('playlist_add_boxes');
+    boxes.innerHTML = '';
+    if(users[current_user].playlists.length==0){
+      boxes.innerHTML = 'you dont have any playlist yet, go and create some in user playlist';
+    }
+    for(let i=0;i<users[current_user].playlists.length;i++){
+      let playlist_name = users[current_user].playlists[i].name;
+      boxes.insertAdjacentHTML('beforeend',`<input type="checkbox" name="${playlist_name}" id="${playlist_name}"><label for="${playlist_name}">${playlist_name}</label><br>`);
+      if(users[current_user].playlists[i].songs.includes(musics_data[song_number].name)){
+        document.getElementById(playlist_name).checked = true;
+        document.getElementById(playlist_name).addEventListener('click',()=>{
+          users[current_user].playlists[i].songs.splice(users[current_user].playlists[i].songs.indexOf(musics_data[song_number].name),1);
+        })
+      } else{
+        document.getElementById(playlist_name).checked = false;
+        document.getElementById(playlist_name).addEventListener('click',()=>{
+          users[current_user].playlists[i].songs.push(musics_data[song_number].name);
+        })
+      }
+    }
+    playlist_add_modal.style.display = 'block';
   }
-  autocomplete(document.getElementById("add_song_bar"), datas);
-  document.getElementById('add_song').addEventListener('click',()=>{
-    let new_song = document.getElementById('add_song_bar').value;
-    users[current_user].favorited.push(new_song);
-    control_playlist(current_user);
-  })
 }
 // search
 function search_result(searchinfo,datas) {
@@ -296,15 +341,21 @@ function search_result(searchinfo,datas) {
       <div>
           <span>Country:${country}</span>
       </div>
+      <div>
+          <span id="add_btn_of ${i}">Add to playlist</span>
+      </div>
       </div>`;
     if (searchinfo == name) {
       content.insertAdjacentHTML('beforeend', chaHTML);
-    }
-    if (searchinfo == artist) {
+      document.getElementById(`add_btn_of ${i}`).addEventListener('click',()=>{add_song_to_playlist(i,user_number)});
+    }else if (searchinfo == artist) {
       content.insertAdjacentHTML('beforeend', chaHTML);
-    }
-    if (searchinfo == genre) {
+      document.getElementById(`add_btn_of ${i}`).addEventListener('click',()=>{add_song_to_playlist(i,user_number)});
+    }else if (searchinfo == genre) {
       content.insertAdjacentHTML('beforeend', chaHTML);
+      document.getElementById(`add_btn_of ${i}`).addEventListener('click',()=>{add_song_to_playlist(i,user_number)});
+    } else if(i==datas.length-1 && content.innerHTML==''){
+      content.innerHTML = 'no result found, you can try search using autocomplete or go to genres and choose what you like';
     }
   }
 }
@@ -316,6 +367,7 @@ function search(){
         let searchinfo = search_bar.value;
         content.innerHTML = '';
         search_result(searchinfo,musics_data);
+        search_bar.value = '';
     })
 }
 search();
