@@ -567,5 +567,5 @@ let users = [{
     user:'trial',
     password:'123456789',
     email:'hi@gmail.com',
-    favorited:[]
+    playlists:[]
 }]
